@@ -35,7 +35,7 @@ void ofApp::setup(){
     centerY_old = height/2;
     guiPanel.add(resetBackground.set("Reset Background", false));
     guiPanel.add(learningTime.set("Learning Time", 0, 0, 30));
-    guiPanel.add(thresholdValue.set("Threshold Value of BGsub", 80, 0, 255));
+    guiPanel.add(thresholdValue.set("Threshold Value of BGsub", 70, 0, 255));
 }
 
 
@@ -76,8 +76,8 @@ void ofApp::update(){
             centerX = (sumX/count+centerX_old)/2;
             centerY = (sumY/count+centerY_old)/2;
             // update objective velocity
-            obj_Xv = float(centerX)-float(centerX_old);
-            obj_Yv = float(centerY)-float(centerY_old);
+            obj_Xv = centerX-centerX_old;
+            obj_Yv = centerY-centerY_old;
             centerX_old = centerX;
             centerY_old = centerY;
         }
@@ -111,25 +111,37 @@ void ofApp::update(){
 //        rains[i][2] += 10*obj_Xv/width;
 //        rains[i][3] += 10*obj_Yv/height;
         
+        // update position
         rains[i][0] += int(rains[i][2]*mag_v);
         rains[i][1] += int(rains[i][3]*mag_v);
         
         
-        // outside window
-        if(rains[i][0]>winWidth){
-            rains[i][0]=0;
-            rains[i][1]=rand()%winHeight;
-        }else if(rains[i][0]<0){
-            rains[i][0]=winWidth;
-            rains[i][1]=rand()%winHeight;
-        }
+        //---------------
+        // touch window border
+        //---------------
         
-        if(rains[i][1]>winHeight){
-            rains[i][1]=0;
-            rains[i][0]=rand()%winWidth;
-        }else if(rains[i][1]<0){
-            rains[i][1]=winHeight;
-            rains[i][0]=rand()%winWidth;
+        // go outside and reborn
+//        if(rains[i][0]>winWidth){
+//            rains[i][0]=0;
+//            rains[i][1]=rand()%winHeight;
+//        }else if(rains[i][0]<0){
+//            rains[i][0]=winWidth;
+//            rains[i][1]=rand()%winHeight;
+//        }
+//        if(rains[i][1]>winHeight){
+//            rains[i][1]=0;
+//            rains[i][0]=rand()%winWidth;
+//        }else if(rains[i][1]<0){
+//            rains[i][1]=winHeight;
+//            rains[i][0]=rand()%winWidth;
+//        }
+        
+        // rebounce
+        if(rains[i][0]>=winWidth || rains[i][0]<=0){
+            rains[i][2] *= -1;
+        }
+        if(rains[i][1]>=winHeight || rains[i][1]<=0){
+            rains[i][3] *= -1;
         }
     }
 }
@@ -156,6 +168,7 @@ void ofApp::draw(){
     //-------------
     ofSetColor(255);
     for(int i=0; i<rain_amount; i++){
+        
         ofDrawEllipse(int(rains[i][0]), int(rains[i][1]), r, r);
     }
 }

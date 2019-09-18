@@ -30,10 +30,10 @@ class ofApp : public ofBaseApp{
         ofParameter<bool> resetBackground;
         ofParameter<float> learningTime, thresholdValue;
         ofPixels thre_pix;
-        int centerX;
-        int centerY;
-        int centerX_old;
-        int centerY_old;
+        float centerX;
+        float centerY;
+        float centerX_old;
+        float centerY_old;
     
         // animation
         ofImage resultImg;
