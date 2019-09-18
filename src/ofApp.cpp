@@ -77,8 +77,8 @@ void ofApp::update(){
             centerX = (sumX/count+centerX_old)/2;
             centerY = (sumY/count+centerY_old)/2;
             // update objective velocity
-            obj_Xv = 8*(float(centerX)-float(width)/2)/float(width);
-            obj_Yv = 8*(float(centerY)-float(height)/2)/float(height);
+            obj_Xv = (float(centerX)-float(centerX_old));
+            obj_Yv = (float(centerY)-float(centerY_old));
             centerX_old = centerX;
             centerY_old = centerY;
         }
