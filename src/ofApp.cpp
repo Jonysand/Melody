@@ -57,6 +57,7 @@ void ofApp::update(){
         background.setLearningTime(learningTime);
         background.setThresholdValue(thresholdValue);
         background.update(cam, thresholded);
+        thresholded.mirror(false, true);
         thresholded.update();
 
         int sumX = 0;
