@@ -16,7 +16,9 @@ class ofApp : public ofBaseApp{
 		
 		void keyPressed(int key);
 		void keyReleased(int key);
-
+    
+        int winWidth = 1440;
+        int winHeight = 900;
         int width = 640;
         int height = 480;
         ofxPanel guiPanel;
@@ -35,10 +37,10 @@ class ofApp : public ofBaseApp{
     
         // animation
         ofImage resultImg;
-        const static int rain_amount=20;
+        const static int rain_amount=40;
         vector<float> rains [rain_amount];
         // radius of the rain drop
-        float r = 3;
+        float r = 6;
         // initial velocity
         float init_v = 0;
         float obj_Xv = 0;

@@ -4,7 +4,7 @@ using namespace std;
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    ofSetWindowShape(width*2, height);
+    ofSetWindowShape(winWidth, winHeight);
     guiPanel.setup("Magic Rain");
     
     //-------------
@@ -12,8 +12,8 @@ void ofApp::setup(){
     //-------------
     srand((unsigned)time(NULL));
     for(int i=0; i<rain_amount; i++){
-        int cord_x = rand() % width;
-        int cord_y = rand() % height;
+        int cord_x = rand() % winWidth;
+        int cord_y = rand() % winHeight;
         vector<float> drop;
         // drop -> {cord_x, cord_y, velovcity_x, velocity_y}
         drop.push_back(cord_x);
@@ -35,8 +35,7 @@ void ofApp::setup(){
     centerY_old = height/2;
     guiPanel.add(resetBackground.set("Reset Background", false));
     guiPanel.add(learningTime.set("Learning Time", 0, 0, 30));
-    guiPanel.add(thresholdValue.set("Threshold Value", 10, 0, 255));
-    
+    guiPanel.add(thresholdValue.set("Threshold Value of BGsub", 80, 0, 255));
 }
 
 
@@ -77,8 +76,8 @@ void ofApp::update(){
             centerX = (sumX/count+centerX_old)/2;
             centerY = (sumY/count+centerY_old)/2;
             // update objective velocity
-            obj_Xv = (float(centerX)-float(centerX_old));
-            obj_Yv = (float(centerY)-float(centerY_old));
+            obj_Xv = float(centerX)-float(centerX_old);
+            obj_Yv = float(centerY)-float(centerY_old);
             centerX_old = centerX;
             centerY_old = centerY;
         }
@@ -91,40 +90,46 @@ void ofApp::update(){
     //-------------
     for(int i=0; i<rain_amount; i++){
         //----------------
-        // velocity update
+        // movement control
         //----------------
+        // 1. update velocity
         if(rains[i][2]<obj_Xv && obj_Xv>0){
             rains[i][2] += g*mag_g;
         }
         if(rains[i][2]>obj_Xv && obj_Xv<0){
             rains[i][2] -= g*mag_g;
         }
-        rains[i][0] += int(rains[i][2]*mag_v);
-        
+
         if(rains[i][3]<obj_Yv && obj_Yv>0){
             rains[i][3] += g*mag_g;
         }
         if(rains[i][3]>obj_Yv && obj_Yv<0){
             rains[i][3] -= g*mag_g;
         }
+    
+        // 2. update acceleration
+//        rains[i][2] += 10*obj_Xv/width;
+//        rains[i][3] += 10*obj_Yv/height;
+        
+        rains[i][0] += int(rains[i][2]*mag_v);
         rains[i][1] += int(rains[i][3]*mag_v);
         
         
-        
-        if(rains[i][0]>width){
+        // outside window
+        if(rains[i][0]>winWidth){
             rains[i][0]=0;
-            rains[i][1]=rand()%height;
+            rains[i][1]=rand()%winHeight;
         }else if(rains[i][0]<0){
-            rains[i][0]=width;
-            rains[i][1]=rand()%height;
+            rains[i][0]=winWidth;
+            rains[i][1]=rand()%winHeight;
         }
         
-        if(rains[i][1]>height){
+        if(rains[i][1]>winHeight){
             rains[i][1]=0;
-            rains[i][0]=rand()%width;
+            rains[i][0]=rand()%winWidth;
         }else if(rains[i][1]<0){
-            rains[i][1]=height;
-            rains[i][0]=rand()%width;
+            rains[i][1]=winHeight;
+            rains[i][0]=rand()%winWidth;
         }
     }
 }
@@ -142,7 +147,7 @@ void ofApp::draw(){
     //-------
     // camera
     //-------
-    thresholded.draw(width, 0);
+    thresholded.draw(winWidth-width, winHeight-height);
     guiPanel.draw();
     
     
@@ -151,7 +156,7 @@ void ofApp::draw(){
     //-------------
     ofSetColor(255);
     for(int i=0; i<rain_amount; i++){
-        ofDrawCircle(int(rains[i][0]), int(rains[i][1]), r);
+        ofDrawEllipse(int(rains[i][0]), int(rains[i][1]), r, r);
     }
 }
 
