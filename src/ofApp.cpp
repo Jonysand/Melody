@@ -4,119 +4,174 @@ using namespace std;
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    ofSetWindowShape(width, height);
-    guiPanel.setup("Hand Detection");
+    ofSetWindowShape(width*2, height);
+    guiPanel.setup("Magic Rain");
     
-    // hand detecting
-//    grabber.setup(width, hright);
-//    finder.setup("haarcascade_eye_tree_eyeglasses.xml");
-    
+    //-------------
     // falling rain
+    //-------------
     srand((unsigned)time(NULL));
     for(int i=0; i<rain_amount; i++){
         int cord_x = rand() % width;
         int cord_y = rand() % height;
-        vector<int> drop;
+        vector<float> drop;
+        // drop -> {cord_x, cord_y, velovcity_x, velocity_y}
         drop.push_back(cord_x);
         drop.push_back(cord_y);
+        drop.push_back(init_v);
         drop.push_back(init_v);
         rains[i] = drop;
     }
     
+    
+    //----------------
+    // offset tracking
+    //----------------
+    cam.setup(width, height);
+    thresholded.allocate(width, height, OF_IMAGE_GRAYSCALE);
+    centerX = width/2;
+    centerY = height/2;
+    centerX_old = width/2;
+    centerY_old = height/2;
+    guiPanel.add(resetBackground.set("Reset Background", false));
+    guiPanel.add(learningTime.set("Learning Time", 0, 0, 30));
+    guiPanel.add(thresholdValue.set("Threshold Value", 10, 0, 255));
+    
 }
+
+
+
+
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    // hand detecting
-//    grabber.update();
-//    img.setFromPixels(grabber.getPixels());
-//    finder.findHaarObjects(img);
-//    img.update();
-    
-    // falling rain
-    for(int i=0; i<rain_amount; i++){
-        rains[i][2]+=g;
-        rains[i][1]+=rains[i][2];
-        if(rains[i][1]>=height){
-            rains[i][1]=0;
-            rains[i][0]=rand() % width;
-            rains[i][2]=init_v;
+    //----------------
+    // offset tracking
+    //----------------
+    cam.update();
+    if(resetBackground) {
+        background.reset();
+        resetBackground = false;
+    }
+    if(cam.isFrameNew()) {
+        background.setLearningTime(learningTime);
+        background.setThresholdValue(thresholdValue);
+        background.update(cam, thresholded);
+        thresholded.update();
+
+        int sumX = 0;
+        int sumY = 0;
+        int count = 0;
+        // find center of the difference
+        thre_pix = thresholded.getPixels();
+        for(int i=0; i<(width*height); i++){
+            if(thre_pix.getColor(i)==ofColor(255)){
+                sumX += i%width;
+                sumY += i/height;
+                count ++;
+            }
+        }
+        if(count!=0){
+            // update offset center, using 1/2 filter
+            centerX = (sumX/count+centerX_old)/2;
+            centerY = (sumY/count+centerY_old)/2;
+            // update objective velocity
+            obj_Xv = 8*(float(centerX)-float(width)/2)/float(width);
+            obj_Yv = 8*(float(centerY)-float(height)/2)/float(height);
+            centerX_old = centerX;
+            centerY_old = centerY;
         }
     }
     
     
     
+    //-------------
+    // falling rain
+    //-------------
+    for(int i=0; i<rain_amount; i++){
+        //----------------
+        // velocity update
+        //----------------
+        if(rains[i][2]<obj_Xv && obj_Xv>0){
+            rains[i][2] += g*mag_g;
+        }
+        if(rains[i][2]>obj_Xv && obj_Xv<0){
+            rains[i][2] -= g*mag_g;
+        }
+        rains[i][0] += int(rains[i][2]*mag_v);
+        
+        if(rains[i][3]<obj_Yv && obj_Yv>0){
+            rains[i][3] += g*mag_g;
+        }
+        if(rains[i][3]>obj_Yv && obj_Yv<0){
+            rains[i][3] -= g*mag_g;
+        }
+        rains[i][1] += int(rains[i][3]*mag_v);
+        
+        
+        
+        if(rains[i][0]>width){
+            rains[i][0]=0;
+            rains[i][1]=rand()%height;
+        }else if(rains[i][0]<0){
+            rains[i][0]=width;
+            rains[i][1]=rand()%height;
+        }
+        
+        if(rains[i][1]>height){
+            rains[i][1]=0;
+            rains[i][0]=rand()%width;
+        }else if(rains[i][1]<0){
+            rains[i][1]=height;
+            rains[i][0]=rand()%width;
+        }
+    }
 }
+
+
+
+
+
+
+
 
 //--------------------------------------------------------------
 void ofApp::draw(){
     ofSetBackgroundColor(0);
-//    img.draw(0, 0);
-//    ofNoFill();
-//    for(unsigned int i = 0; i < finder.blobs.size(); i++) {
-//        ofRectangle cur = finder.blobs[i].boundingRect;
-//        ofDrawRectangle(cur.x, cur.y, cur.width, cur.height);
-//    }
+    //-------
+    // camera
+    //-------
+    thresholded.draw(width, 0);
+    guiPanel.draw();
     
+    
+    //-------------
     // falling rain
+    //-------------
     ofSetColor(255);
     for(int i=0; i<rain_amount; i++){
-        ofDrawCircle(rains[i][0], rains[i][1], r);
+        ofDrawCircle(int(rains[i][0]), int(rains[i][1]), r);
     }
-    
 }
+
+
+
+
+
+
+
+
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-
+    if (key == 'g'){
+        if(mag_v<=2){
+            mag_v += 0.1;
+        }
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y ){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){ 
-
+    mag_v = 1;
 }
