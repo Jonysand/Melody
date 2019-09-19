@@ -20,6 +20,9 @@ void ofApp::setup(){
         drop.push_back(cord_y);
         drop.push_back(init_v);
         drop.push_back(init_v);
+        // to ensure the drop always comes back
+        drop.push_back(0);
+        drop.push_back(0);
         rains[i] = drop;
     }
     
@@ -138,10 +141,24 @@ void ofApp::update(){
         
         // rebounce
         if(rains[i][0]>=winWidth || rains[i][0]<=0){
-            rains[i][2] *= -1;
+            if(rains[i][4]==0){
+                rains[i][2] *= -1;
+                rains[i][4]=1;
+            }else{
+                rains[i][4]=1;
+            }
+        }else{
+            rains[i][4]=0;
         }
         if(rains[i][1]>=winHeight || rains[i][1]<=0){
-            rains[i][3] *= -1;
+            if(rains[i][5]==0){
+                rains[i][3] *= -1;
+                rains[i][5]=1;
+            }else{
+                rains[i][5]=1;
+            }
+        }else{
+            rains[i][5]=0;
         }
     }
 }
