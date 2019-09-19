@@ -8,22 +8,12 @@ void ofApp::setup(){
     guiPanel.setup("Magic Rain");
     
     //-------------
-    // falling rain
+    // falling drops
     //-------------
     srand((unsigned)time(NULL));
-    for(int i=0; i<rain_amount; i++){
-        int cord_x = rand() % winWidth;
-        int cord_y = rand() % winHeight;
-        vector<float> drop;
-        // drop -> {cord_x, cord_y, velovcity_x, velocity_y}
-        drop.push_back(cord_x);
-        drop.push_back(cord_y);
-        drop.push_back(init_v);
-        drop.push_back(init_v);
-        // to ensure the drop always comes back
-        drop.push_back(0);
-        drop.push_back(0);
-        rains[i] = drop;
+    for(int i=0; i<drops_amount; i++){
+        aDrop drop(rand()%winWidth, rand()%winHeight, init_v, init_v);
+        drops[i] = drop;
     }
     
     
@@ -79,8 +69,8 @@ void ofApp::update(){
             centerX = (sumX/count+centerX_old)/2;
             centerY = (sumY/count+centerY_old)/2;
             // update objective velocity
-            obj_Xv = centerX-centerX_old;
-            obj_Yv = centerY-centerY_old;
+            obj_X = centerX-centerX_old;
+            obj_Y = centerY-centerY_old;
             centerX_old = centerX;
             centerY_old = centerY;
         }
@@ -91,32 +81,19 @@ void ofApp::update(){
     //-------------
     // falling rain
     //-------------
-    for(int i=0; i<rain_amount; i++){
+    for(int i=0; i<drops_amount; i++){
         //----------------
         // movement control
         //----------------
+        
         // 1. update velocity
-        if(rains[i][2]<obj_Xv && obj_Xv>0){
-            rains[i][2] += g*mag_g;
-        }
-        if(rains[i][2]>obj_Xv && obj_Xv<0){
-            rains[i][2] -= g*mag_g;
-        }
-
-        if(rains[i][3]<obj_Yv && obj_Yv>0){
-            rains[i][3] += g*mag_g;
-        }
-        if(rains[i][3]>obj_Yv && obj_Yv<0){
-            rains[i][3] -= g*mag_g;
-        }
+        drops[i].updateThroughVelocity(g*mag_g, obj_X, obj_Y);
     
         // 2. update acceleration
-//        rains[i][2] += 10*obj_Xv/width;
-//        rains[i][3] += 10*obj_Yv/height;
+//        drops[i].updateThroughAcceleration(obj_X, obj_Y);
         
         // update position
-        rains[i][0] += int(rains[i][2]*mag_v);
-        rains[i][1] += int(rains[i][3]*mag_v);
+        drops[i].updatePosition(mag_v);
         
         
         //---------------
@@ -124,46 +101,12 @@ void ofApp::update(){
         //---------------
         
         // go outside and reborn
-//        if(rains[i][0]>winWidth){
-//            rains[i][0]=0;
-//            rains[i][1]=rand()%winHeight;
-//        }else if(rains[i][0]<0){
-//            rains[i][0]=winWidth;
-//            rains[i][1]=rand()%winHeight;
-//        }
-//        if(rains[i][1]>winHeight){
-//            rains[i][1]=0;
-//            rains[i][0]=rand()%winWidth;
-//        }else if(rains[i][1]<0){
-//            rains[i][1]=winHeight;
-//            rains[i][0]=rand()%winWidth;
-//        }
+//        drops[i].setReborn(winWidth, winHeight);
         
         // rebounce
-        if(rains[i][0]>=winWidth || rains[i][0]<=0){
-            if(rains[i][4]==0){
-                rains[i][2] *= -1;
-                rains[i][4]=1;
-            }else{
-                rains[i][4]=1;
-            }
-        }else{
-            rains[i][4]=0;
-        }
-        if(rains[i][1]>=winHeight || rains[i][1]<=0){
-            if(rains[i][5]==0){
-                rains[i][3] *= -1;
-                rains[i][5]=1;
-            }else{
-                rains[i][5]=1;
-            }
-        }else{
-            rains[i][5]=0;
-        }
+        drops[i].setRebounce(winWidth, winHeight);
     }
 }
-
-
 
 
 
@@ -181,12 +124,11 @@ void ofApp::draw(){
     
     
     //-------------
-    // falling rain
+    // falling drops
     //-------------
     ofSetColor(255);
-    for(int i=0; i<rain_amount; i++){
-        
-        ofDrawEllipse(int(rains[i][0]), int(rains[i][1]), r, r);
+    for(int i=0; i<drops_amount; i++){
+        ofDrawEllipse(drops[i].cord_x, drops[i].cord_y, r, r);
     }
 }
 

@@ -8,6 +8,8 @@
 #include <time.h>
 #include <vector>
 
+#include "aDrop.hpp"
+
 class ofApp : public ofBaseApp{
 	public:
 		void setup();
@@ -37,14 +39,14 @@ class ofApp : public ofBaseApp{
     
         // animation
         ofImage resultImg;
-        const static int rain_amount=40;
-        vector<float> rains [rain_amount];
+        const static int drops_amount=40;
+        aDrop drops [drops_amount];
         // radius of the rain drop
         float r = 6;
         // initial velocity
         float init_v = 0;
-        float obj_Xv = 0;
-        float obj_Yv = 0;
+        float obj_X = 0;
+        float obj_Y = 0;
         // magnification of velocity&acceleration
         float mag_v = 1;
         float mag_g = 1;
