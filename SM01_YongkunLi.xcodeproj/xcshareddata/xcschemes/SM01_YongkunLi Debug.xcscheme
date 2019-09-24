@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-               BuildableName = "SM01_YongkunLi.app"
-               BlueprintName = "SM01_YongkunLi"
-               ReferencedContainer = "container:SM01_YongkunLi.xcodeproj">
+               BuildableName = "SM01_YongkunLI.app"
+               BlueprintName = "SM01_YongkunLI"
+               ReferencedContainer = "container:SM01_YongkunLI.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "SM01_YongkunLi.app"
-            BlueprintName = "SM01_YongkunLi"
-            ReferencedContainer = "container:SM01_YongkunLi.xcodeproj">
+            BuildableName = "SM01_YongkunLI.app"
+            BlueprintName = "SM01_YongkunLI"
+            ReferencedContainer = "container:SM01_YongkunLI.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -52,9 +52,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "SM01_YongkunLi.app"
-            BlueprintName = "SM01_YongkunLi"
-            ReferencedContainer = "container:SM01_YongkunLi.xcodeproj">
+            BuildableName = "SM01_YongkunLI.app"
+            BlueprintName = "SM01_YongkunLI"
+            ReferencedContainer = "container:SM01_YongkunLI.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -70,9 +70,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "SM01_YongkunLi.app"
-            BlueprintName = "SM01_YongkunLi"
-            ReferencedContainer = "container:SM01_YongkunLi.xcodeproj">
+            BuildableName = "SM01_YongkunLI.app"
+            BlueprintName = "SM01_YongkunLI"
+            ReferencedContainer = "container:SM01_YongkunLI.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

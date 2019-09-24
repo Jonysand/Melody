@@ -21,8 +21,6 @@ public:
     int cord_y;
     float velocity_x;
     float velocity_y;
-    bool isOutX = false;
-    bool isOutY = false;
     
     
     //----------
@@ -38,4 +36,8 @@ public:
     void updatePosition(float mag_v);
     void setReborn(int winWidth, int winHeight);
     void setRebounce(int winWidth, int winHeight);
+    
+private:
+    bool isOutX = false;
+    bool isOutY = false;
 };

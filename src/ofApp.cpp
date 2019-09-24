@@ -68,7 +68,7 @@ void ofApp::update(){
             // update offset center, using 1/2 filter
             centerX = (sumX/count+centerX_old)/2;
             centerY = (sumY/count+centerY_old)/2;
-            // update objective velocity
+            // update target X&Y
             obj_X = centerX-centerX_old;
             obj_Y = centerY-centerY_old;
             centerX_old = centerX;
