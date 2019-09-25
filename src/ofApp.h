@@ -9,36 +9,24 @@
 #include <vector>
 
 #include "aDrop.hpp"
+#include "bgsDetector.hpp"
 
 class ofApp : public ofBaseApp{
 	public:
 		void setup();
 		void update();
 		void draw();
-		
-		void keyPressed(int key);
-		void keyReleased(int key);
     
         int winWidth = 1440;
         int winHeight = 900;
         int width = 640;
         int height = 480;
-        ofxPanel guiPanel;
     
         // offset tracking
         ofVideoGrabber cam;
-        ofxCv::RunningBackground background;
-        ofImage thresholded;
-        ofParameter<bool> resetBackground;
-        ofParameter<float> learningTime, thresholdValue;
-        ofPixels thre_pix;
-        float centerX;
-        float centerY;
-        float centerX_old;
-        float centerY_old;
+        bgsDetector BGSdetector;
     
         // animation
-        ofImage resultImg;
         const static int drops_amount=40;
         aDrop drops [drops_amount];
         // radius of the rain drop

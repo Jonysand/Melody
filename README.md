@@ -42,5 +42,7 @@ https://github.com/Aravindlivewire/Opencv/tree/master/haarcascade
 - resize the animation & camera
 - rebounce effect
 ### to do:
-- add visibility elements to reflect that the program did capture hands movements.
+- hand detection, try color object detection
+
+
 - generating the drops by a certain gesture.
