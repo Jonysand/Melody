@@ -5,9 +5,8 @@ using namespace std;
 //--------------------------------------------------------------
 void ofApp::setup(){
     ofSetWindowShape(winWidth, winHeight);
-    
     //-------------
-    // drops
+    // generating drops
     //-------------
     srand((unsigned)time(NULL));
     for(int i=0; i<drops_amount; i++){
@@ -17,8 +16,10 @@ void ofApp::setup(){
     
     cam.setup(width, height);
     
-    // use background subtracktion
-    BGSdetector = bgsDetector(width, height);
+    // background subtracktion
+//    BGSdetector = bgsDetector(winWidth, winHeight, width, height);
+    // color object detection
+    COLORdetector = colorDetector(width, height);
 }
 
 
@@ -29,7 +30,9 @@ void ofApp::update(){
     //----------------
     cam.update();
     if(cam.isFrameNew()) {
-        auto obj_result = BGSdetector.detectMove(cam);
+        // background subtracktion
+//        auto obj_result = BGSdetector.detectMove(cam);
+        auto obj_result = COLORdetector.detectMove(cam);
         obj_X = get<0>(obj_result);
         obj_Y = get<1>(obj_result);
     }
@@ -73,7 +76,11 @@ void ofApp::draw(){
     //-------
     // camera
     //-------
-    BGSdetector.draw(winWidth, winHeight);
+//    BGSdetector.draw(winWidth, winHeight);
+    COLORdetector.draw(cam, winWidth, winHeight);
+//    guiPanel = COLORdetector.guiPanel;
+//    guiPanel.draw();
+    
     
     //-------------
     // falling drops
@@ -82,4 +89,9 @@ void ofApp::draw(){
     for(int i=0; i<drops_amount; i++){
         ofDrawEllipse(drops[i].cord_x, drops[i].cord_y, r, r);
     }
+}
+
+void ofApp::mousePressed(int x, int y, int button){
+    COLORdetector.pickColor(x, y, cam);
+    COLORdetector.autoCorrectThreshold(cam);
 }

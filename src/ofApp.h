@@ -9,13 +9,20 @@
 #include <vector>
 
 #include "aDrop.hpp"
+
+// method of tracking
 #include "bgsDetector.hpp"
+#define BGS_DETECT 1
+#include "colorDetector.hpp"
+#define COLOR_DETECT 2
 
 class ofApp : public ofBaseApp{
 	public:
 		void setup();
 		void update();
 		void draw();
+    
+        void mousePressed(int x, int y, int button);
     
         int winWidth = 1440;
         int winHeight = 900;
@@ -24,7 +31,10 @@ class ofApp : public ofBaseApp{
     
         // offset tracking
         ofVideoGrabber cam;
+    
+        int trackMethod = BGS_DETECT;
         bgsDetector BGSdetector;
+        colorDetector COLORdetector;
     
         // animation
         const static int drops_amount=40;

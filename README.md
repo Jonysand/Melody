@@ -29,6 +29,10 @@
 - other cascade files that might be useful:<br>
 https://github.com/Aravindlivewire/Opencv/tree/master/haarcascade 
 - alternative control method: background subtraction with learning
+- auto correction algorithm with color object tracking
+	- increase the threshold value gradually, then recorde the value when there's one blob, as Min.
+	- increase the threshold value gradually, then recorde the value when there's two blob, as Max.
+	- use the average of Min and Max as the threshold value
 
 ## logs
 - /Users/yongkunli/Desktop/OpenFramework/apps/myApps/myBGsub
@@ -41,8 +45,8 @@ https://github.com/Aravindlivewire/Opencv/tree/master/haarcascade
 - flip the camera
 - resize the animation & camera
 - rebounce effect
+- auto correction
+	- make an app to generate colors
+	- try autocorrection algrithm
 ### to do:
-- hand detection, try color object detection
-
-
 - generating the drops by a certain gesture.

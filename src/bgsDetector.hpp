@@ -31,7 +31,6 @@ public:
     ofxPanel guiPanel;
     ofxCv::RunningBackground background;
     ofImage thresholded;
-    ofParameter<bool> resetBackground;
     ofParameter<float> thresholdValue;
     ofPixels thre_pix;
     float centerX;
@@ -43,7 +42,7 @@ public:
     //funtions
     //--------
     bgsDetector();
-    bgsDetector(int width, int height);
+    bgsDetector(int winWidth, int winHeight, int width, int height);
     
     tuple<float, float> detectMove(ofVideoGrabber cam);
     

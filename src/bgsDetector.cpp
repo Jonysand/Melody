@@ -9,7 +9,7 @@
 
 bgsDetector::bgsDetector(){};
 
-bgsDetector::bgsDetector(int width, int height){
+bgsDetector::bgsDetector(int winWidth, int winHeight, int width, int height){
     this->width = width;
     this->height = height;
     thresholded.allocate(width, height, OF_IMAGE_GRAYSCALE);
@@ -21,7 +21,6 @@ bgsDetector::bgsDetector(int width, int height){
     guiPanel.setup("Magic Drop");
     background.setLearningTime(0);
     thresholdValue.set("Threshold Value of BGsub", 70, 0, 255);
-    guiPanel.add(resetBackground);
     guiPanel.add(thresholdValue);
 }
 
