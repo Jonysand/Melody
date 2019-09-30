@@ -17,7 +17,7 @@ void ofApp::setup(){
     cam.setup(width, height);
     
     // background subtracktion
-//    BGSdetector = bgsDetector(winWidth, winHeight, width, height);
+    BGSdetector = bgsDetector(winWidth, winHeight, width, height);
     // color object detection
     COLORdetector = colorDetector(width, height);
 }
@@ -31,10 +31,14 @@ void ofApp::update(){
     cam.update();
     if(cam.isFrameNew()) {
         // background subtracktion
-//        auto obj_result = BGSdetector.detectMove(cam);
-        auto obj_result = COLORdetector.detectMove(cam);
-        obj_X = get<0>(obj_result);
-        obj_Y = get<1>(obj_result);
+        auto obj_result_BGS = BGSdetector.detectMove(cam);
+        float obj_X_BGS = get<0>(obj_result_BGS);
+        float obj_Y_BGS = get<1>(obj_result_BGS);
+        auto obj_result_COLOR = COLORdetector.detectMove(cam);
+        float obj_X_COLOR = get<0>(obj_result_COLOR);
+        float obj_Y_COLOR = get<1>(obj_result_COLOR);
+        obj_X = (obj_X_BGS+obj_X_COLOR)/2;
+        obj_Y = (obj_Y_BGS+obj_Y_COLOR)/2;
     }
     
     
@@ -76,7 +80,7 @@ void ofApp::draw(){
     //-------
     // camera
     //-------
-//    BGSdetector.draw(winWidth, winHeight);
+    BGSdetector.draw(winWidth, winHeight);
     COLORdetector.draw(cam, winWidth, winHeight);
 //    guiPanel = COLORdetector.guiPanel;
 //    guiPanel.draw();

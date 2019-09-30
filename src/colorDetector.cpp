@@ -96,7 +96,7 @@ void colorDetector::draw(ofVideoGrabber grabber, int winWidth, int winHeight){
     }
     
     // Draw the gui.
-    guiPanel.draw();
+//    guiPanel.draw();
 }
 
 void colorDetector::autoCorrectThreshold(ofVideoGrabber grabber){

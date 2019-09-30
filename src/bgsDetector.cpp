@@ -61,5 +61,5 @@ tuple<float, float> bgsDetector::detectMove(ofVideoGrabber cam){
 void bgsDetector::draw(int winWidth, int winHeight){
     thresholded.update();
     thresholded.draw(winWidth-width, winHeight-height);
-    guiPanel.draw();
+//    guiPanel.draw();
 }
