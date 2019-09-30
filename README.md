@@ -1,4 +1,10 @@
 # Motion controled Animation - SensingMachine assignment 1
+## Demo Videos
+<iframe width="560" height="315" src="https://www.youtube.com/embed/0nyqud0FAMk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+>Using color detection
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/3jMAW00ypwk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+>Using background subtraction
 
 ## Basic Idea
 - Use motion to control the pattern on screen.
