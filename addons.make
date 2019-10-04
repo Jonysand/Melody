@@ -1,3 +1,4 @@
+ofxBlur
 ofxCv
 ofxGui
 ofxOpenCv

@@ -15,7 +15,7 @@ colorDetector::colorDetector(int width, int height){
     // Setup my parameters
     processedImage.allocate(width, height, OF_IMAGE_COLOR);
     colorThreshold.set("Color Threshold", 10, 0, 255);
-    targetColor.set("Target Color", ofColor(0, 255, 0));
+    targetColor.set("Target Color", ofColor(255, 0, 0));
     minAreaContour.set("Min Area", 0.01, 0, 0.25);
     maxAreaContour.set("Max Area", 0.2, 0, 0.25);
     blurAmount.set("Blur Size", 20, 0, 100);
@@ -96,7 +96,7 @@ void colorDetector::draw(ofVideoGrabber grabber, int winWidth, int winHeight){
     }
     
     // Draw the gui.
-//    guiPanel.draw();
+    guiPanel.draw();
 }
 
 void colorDetector::autoCorrectThreshold(ofVideoGrabber grabber){

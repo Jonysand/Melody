@@ -12,9 +12,7 @@
 
 // method of tracking
 #include "bgsDetector.hpp"
-#define BGS_DETECT 1
 #include "colorDetector.hpp"
-#define COLOR_DETECT 2
 
 class ofApp : public ofBaseApp{
 	public:
@@ -23,6 +21,7 @@ class ofApp : public ofBaseApp{
 		void draw();
     
         void mousePressed(int x, int y, int button);
+        void keyPressed(int key);
     
         int winWidth = 1440;
         int winHeight = 900;
@@ -32,12 +31,11 @@ class ofApp : public ofBaseApp{
         // offset tracking
         ofVideoGrabber cam;
     
-        int trackMethod = BGS_DETECT;
         bgsDetector BGSdetector;
         colorDetector COLORdetector;
     
         // animation
-        const static int drops_amount=40;
+        const static int drops_amount=20;
         aDrop drops [drops_amount];
         // radius of the rain drop
         float r = 6;
@@ -45,6 +43,7 @@ class ofApp : public ofBaseApp{
         float init_v = 0;
         float obj_X = 0;
         float obj_Y = 0;
+        float obj_D = 0;
         // magnification of velocity&acceleration
         float mag_v = 1;
         float mag_g = 1;
