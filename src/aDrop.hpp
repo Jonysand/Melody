@@ -40,9 +40,9 @@ public:
     void updateThroughVelocity(float g, float target_vX, float target_vY, float target_vD);
     void updateThroughAcceleration(float gX, float gY, float gD);
     
-    void updatePosition(float r, float mag_v, int winWidth, int winHeight);
-    void setReborn(int winWidth, int winHeight);
-    void setRebounce(int winWidth, int winHeight);
+    void updatePosition(float r, float mag_v, int winWidth, int winHeight, int winDepth);
+    void setReborn(int winWidth, int winHeight, int winDepth);
+    void setRebounce(int winWidth, int winHeight, int winDepth);
     
 private:
     bool isOutX = false;

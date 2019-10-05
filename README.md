@@ -47,7 +47,8 @@
 ## notes
 
 ### Control method
-- background subtraction with learning
+- background subtraction with learning in 2D
+- average the whole depth value in 3D
 
 ### auto correction algorithm with color object tracking
 - increase the threshold value gradually, then recorde the value when there's one blob, as Min.

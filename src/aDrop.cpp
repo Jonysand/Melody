@@ -58,15 +58,15 @@ void aDrop::updateThroughAcceleration(float gX, float gY, float gD){
 }
 
 
-void aDrop::updatePosition(float r, float mag_v, int winWidth, int winHeight){
+void aDrop::updatePosition(float r, float mag_v, int winWidth, int winHeight, int winDepth){
     cord_x += int(velocity_x*mag_v);
     cord_y += int(velocity_y*mag_v);
     cord_d += int(velocity_d*mag_v);
 }
 
 
-void aDrop::setReborn(int winWidth, int winHeight){
-    int rand_depth = rand()%winHeight * pow((-1), rand()%2);
+void aDrop::setReborn(int winWidth, int winHeight, int winDepth){
+    int rand_depth = rand()%winDepth * pow((-1), rand()%2);
     if(cord_x>winWidth){
         cord_x=0;
         cord_y=rand()%winHeight;
@@ -88,17 +88,17 @@ void aDrop::setReborn(int winWidth, int winHeight){
     }
     
     if(cord_d>winHeight){
-        cord_d=-winHeight;
+        cord_d=-winDepth;
         cord_x=rand()%winWidth;
         cord_y=rand()%winHeight;
     }else if(cord_d<-winHeight){
-        cord_d=winHeight;
+        cord_d=winDepth;
         cord_x=rand()%winWidth;
         cord_y=rand()%winHeight;
     }
 }
 
-void aDrop::setRebounce(int winWidth, int winHeight){
+void aDrop::setRebounce(int winWidth, int winHeight, int winDepth){
     if(cord_x>=winWidth || cord_x<=0){
         if(!isOutX){
             velocity_x *= -1;
@@ -117,7 +117,7 @@ void aDrop::setRebounce(int winWidth, int winHeight){
         isOutY=false;
     }
     
-    if(cord_d>=winHeight || cord_d<=0){
+    if(cord_d>=winDepth || cord_d<=-winDepth){
         if(!isOutD){
             velocity_d *= -1;
             isOutD=true;

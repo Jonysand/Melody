@@ -6,20 +6,28 @@ using namespace std;
 void ofApp::setup(){
     ofSetWindowShape(winWidth, winHeight);
     ofSetBackgroundColor(0);
+    ofSetFrameRate(60);
     //-------------
     // generating drops
     //-------------
     srand((unsigned)time(NULL));
     for(int i=0; i<drops_amount; i++){
-        float rand_depth = rand()%winHeight * pow((-1), rand()%2);
+        float rand_depth = rand()%depth * pow((-1), rand()%2);
         aDrop drop(rand()%winWidth, rand()%winHeight, rand_depth, init_v, init_v, init_v);
         drops[i] = drop;
     }
     
-    cam.setup(width, height);
+    // use camera
+//    cam.setup(width, height);
+    // use kinect
+    kinect.setRegistration(true);
+    kinect.init(false, true, false);
+    kinect.open();
+    kinect.setCameraTiltAngle(45);
     
     // background subtracktion
-    BGSdetector = bgsDetector(winWidth, winHeight, width, height);
+//    BGSdetector = bgsDetector(winWidth, winHeight, width, height);
+    KINECTdetector = kinectBgsDetector(winWidth, winHeight, winDepth, width, height, depth);
     // color object detection
 //    COLORdetector = colorDetector(width, height);
 }
@@ -31,12 +39,13 @@ void ofApp::update(){
     //----------------
     // offset tracking
     //----------------
-    cam.update();
-    if(cam.isFrameNew()) {
+    kinect.update();
+    if(kinect.isFrameNew()) {
         // background subtracktion
-        auto obj_result_BGS = BGSdetector.detectMove(cam);
+        auto obj_result_BGS = KINECTdetector.getDetectMove(kinect);
         float obj_X_BGS = get<0>(obj_result_BGS);
         float obj_Y_BGS = get<1>(obj_result_BGS);
+        float obj_D_BGS = get<2>(obj_result_BGS);
 //        auto obj_result_COLOR = COLORdetector.detectMove(cam);
 //        float obj_X_COLOR = get<0>(obj_result_COLOR);
 //        float obj_Y_COLOR = get<1>(obj_result_COLOR);
@@ -44,6 +53,7 @@ void ofApp::update(){
 //        obj_Y = (obj_Y_BGS+obj_Y_COLOR)/2;
             obj_X = obj_X_BGS;
             obj_Y = obj_Y_BGS;
+            obj_D = 2*obj_D_BGS;
 //            obj_X=0;
 //            obj_Y=0;
     }
@@ -66,13 +76,13 @@ void ofApp::update(){
 
         
         // go outside and reborn
-        drops[i].setReborn(winWidth, winHeight);
+        drops[i].setReborn(winWidth, winHeight, winDepth);
         
         // rebounce
-//        drops[i].setRebounce(winWidth, winHeight);
+//        drops[i].setRebounce(winWidth, winHeight, winDepth);
         
         // update position
-        drops[i].updatePosition(r, mag_v, winWidth, winHeight);
+        drops[i].updatePosition(r, mag_v, winWidth, winHeight, winDepth);
     }
 }
 
@@ -104,26 +114,14 @@ void ofApp::draw(){
         ofDrawCircle(drops[i].cord_x, drops[i].cord_y,drops[i].cord_d, redius);
     }
     ofDisableAlphaBlending();
-    // draw lines
-//    for(int i=0; i<drops_amount; i++){
-//        for(int j=i; j<drops_amount; j++){
-//            if( sqrt(
-//                     pow((drops[i].cord_x-drops[j].cord_x), 2)+
-//                     pow((drops[i].cord_y-drops[j].cord_y), 2)+
-//                     pow((drops[i].cord_d-drops[j].cord_d), 2)
-//                     )<=line_thresh ){
-//                ofDrawLine(drops[i].cord_x, drops[i].cord_y, drops[j].cord_x, drops[j].cord_y);
-//            }
-//        }
-//    }
 }
 
 
 
-void ofApp::mousePressed(int x, int y, int button){
-    COLORdetector.pickColor(x, y, cam);
-    COLORdetector.autoCorrectThreshold(cam);
-}
+//void ofApp::mousePressed(int x, int y, int button){
+//    COLORdetector.pickColor(x, y, cam);
+//    COLORdetector.autoCorrectThreshold(cam);
+//}
 
 
 

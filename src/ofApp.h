@@ -11,7 +11,8 @@
 #include "aDrop.hpp"
 
 // method of tracking
-#include "bgsDetector.hpp"
+
+#include "kinectBgsDetector.hpp"
 #include "colorDetector.hpp"
 
 class ofApp : public ofBaseApp{
@@ -20,17 +21,21 @@ class ofApp : public ofBaseApp{
 		void update();
 		void draw();
     
-        void mousePressed(int x, int y, int button);
+//        void mousePressed(int x, int y, int button);
         void keyPressed(int key);
     
         int winWidth = 1440;
         int winHeight = 900;
+        int winDepth = 574;
         int width = 640;
         int height = 480;
+        int depth = 255;
     
         // offset tracking
         ofVideoGrabber cam;
+        ofxKinect kinect;
     
+        kinectBgsDetector KINECTdetector;
         bgsDetector BGSdetector;
         colorDetector COLORdetector;
     
@@ -46,7 +51,7 @@ class ofApp : public ofBaseApp{
         // objective velocity
         float obj_X = 0;
         float obj_Y = 0;
-        float obj_D = -1;
+        float obj_D = 0;
         // magnification of velocity&acceleration
         float mag_v = 1;
         float mag_g = 1;
