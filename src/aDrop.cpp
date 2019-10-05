@@ -7,6 +7,8 @@
 
 #include "aDrop.hpp"
 
+using namespace std;
+
 aDrop::aDrop(){};
 
 aDrop::aDrop(int x, int y, float d, float vX, float vY, float vD){
@@ -56,7 +58,7 @@ void aDrop::updateThroughAcceleration(float gX, float gY, float gD){
 }
 
 
-void aDrop::updatePosition(float mag_v){
+void aDrop::updatePosition(float r, float mag_v, int winWidth, int winHeight){
     cord_x += int(velocity_x*mag_v);
     cord_y += int(velocity_y*mag_v);
     cord_d += int(velocity_d*mag_v);
@@ -89,7 +91,7 @@ void aDrop::setReborn(int winWidth, int winHeight){
         cord_d=-winHeight;
         cord_x=rand()%winWidth;
         cord_y=rand()%winHeight;
-    }else if(cord_y<0){
+    }else if(cord_d<-winHeight){
         cord_d=winHeight;
         cord_x=rand()%winWidth;
         cord_y=rand()%winHeight;

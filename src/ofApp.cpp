@@ -42,8 +42,10 @@ void ofApp::update(){
 //        float obj_Y_COLOR = get<1>(obj_result_COLOR);
 //        obj_X = (obj_X_BGS+obj_X_COLOR)/2;
 //        obj_Y = (obj_Y_BGS+obj_Y_COLOR)/2;
-        obj_X = obj_X_BGS;
-        obj_Y = obj_Y_BGS;
+            obj_X = obj_X_BGS;
+            obj_Y = obj_Y_BGS;
+//            obj_X=0;
+//            obj_Y=0;
     }
     
     
@@ -55,22 +57,22 @@ void ofApp::update(){
         // movement control
         //----------------
         
+        // update 3D space ratios
+        drops[i].space_ratio = winHeight/(winHeight-drops[i].cord_d);
+        drops[i].size_ratio = drops[i].cord_d/winHeight;
+        
         // update velocity
         drops[i].updateThroughVelocity(g*mag_g, obj_X*winHeight/(winHeight-drops[i].cord_d), obj_Y*winHeight/(winHeight-drops[i].cord_d), obj_D);
-        
-        // update position
-        drops[i].updatePosition(mag_v);
-        
 
-        //---------------
-        // touch window border
-        //---------------
         
         // go outside and reborn
         drops[i].setReborn(winWidth, winHeight);
         
         // rebounce
 //        drops[i].setRebounce(winWidth, winHeight);
+        
+        // update position
+        drops[i].updatePosition(r, mag_v, winWidth, winHeight);
     }
 }
 
@@ -84,7 +86,7 @@ void ofApp::draw(){
     //-------
     // camera
     //-------
-    BGSdetector.draw(winWidth, winHeight);
+//    BGSdetector.draw(winWidth, winHeight);
 //    COLORdetector.draw(cam, winWidth, winHeight);
 //    guiPanel = COLORdetector.guiPanel;
 //    guiPanel.draw();
@@ -93,15 +95,27 @@ void ofApp::draw(){
     //-------------
     // draw drops
     //-------------
+    // draw each drop
     ofEnableAlphaBlending();
     for(int i=0; i<drops_amount; i++){
-        int redius = r * (winHeight/(winHeight-drops[i].cord_d));
-        float ratio = drops[i].cord_d/winHeight;
-        int transparency = int( 255*(1-abs(ratio)));
+        int redius = r * drops[i].space_ratio;
+        int transparency = int( 255*(1-abs(drops[i].size_ratio)));
         ofSetColor(255, 255, 255, transparency);
-        ofDrawCircle(drops[i].cord_x, drops[i].cord_y, redius);
+        ofDrawCircle(drops[i].cord_x, drops[i].cord_y,drops[i].cord_d, redius);
     }
     ofDisableAlphaBlending();
+    // draw lines
+//    for(int i=0; i<drops_amount; i++){
+//        for(int j=i; j<drops_amount; j++){
+//            if( sqrt(
+//                     pow((drops[i].cord_x-drops[j].cord_x), 2)+
+//                     pow((drops[i].cord_y-drops[j].cord_y), 2)+
+//                     pow((drops[i].cord_d-drops[j].cord_d), 2)
+//                     )<=line_thresh ){
+//                ofDrawLine(drops[i].cord_x, drops[i].cord_y, drops[j].cord_x, drops[j].cord_y);
+//            }
+//        }
+//    }
 }
 
 

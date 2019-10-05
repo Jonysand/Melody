@@ -35,15 +35,18 @@ class ofApp : public ofBaseApp{
         colorDetector COLORdetector;
     
         // animation
-        const static int drops_amount=20;
+        const static int drops_amount=40;
         aDrop drops [drops_amount];
         // radius of the rain drop
         float r = 6;
         // initial velocity
         float init_v = 0;
+        // threshold distance for drawing a line
+        int line_thresh = 300;
+        // objective velocity
         float obj_X = 0;
         float obj_Y = 0;
-        float obj_D = 0;
+        float obj_D = -1;
         // magnification of velocity&acceleration
         float mag_v = 1;
         float mag_g = 1;

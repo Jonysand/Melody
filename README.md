@@ -13,6 +13,7 @@
 	* [depth expression and movements](#depth-expression-and-movements)
 		* [perceively visual effect in 3D space](#perceively-visual-effect-in-3d-space)
 			* [size scale](#size-scale)
+			* [velocity ratio: perceive movements](#velocity-ratio-perceive-movements)
 * [logs](#logs)
 	* [done:](#done)
 
@@ -59,11 +60,12 @@
 - closer: bigger, more blurry/transparency
 - further: smaller, more blurry/transparency
 
-##### size scale
 The math is used to achieve the goal of perceively visual effect in 3D place on a 2D screen.
 
 ![relation between distance and visual scale](./media/distanvce_radius.png) 
 >relation between distance and visual scale
+
+##### size scale
 
 We assume that the maximum depth is $h$ (which in my case is $winHeight$);<br>
 the original radius of the drop is $r$;<br>
@@ -75,6 +77,14 @@ $tan\theta_{1}=\frac{r}{h}$ <br>
 $\frac{r'}{h}=tan\theta_{2}=\frac{r}{h-d}$
 
 Then we have: $r'=\frac{r*h}{h-d}$, which is the transformation formula of what we need.
+
+##### velocity ratio: perceive movements
+
+We need to add a 3D concept - vanish point (*thanks Fanyi pointed out!*) to achive the effect of 3D movements. And the key is to calculate the ratio of speed between real depth speed and perceive 2D speed.
+
+In the previous part we get the ratio of scale, which is $r'=\frac{r*h}{h-d}$. This equation gives the relationship between the depth and perceive radius.
+
+After we do the derivation, we get: $d(radius')=d(depth)*\frac{rh}{(h-depth)^{2}}$. The ratio here is what we need to calculate perceive speed in 2D space.
 
 ## logs
 - /Users/yongkunli/Desktop/OpenFramework/apps/myApps/myBGsub

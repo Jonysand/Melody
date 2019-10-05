@@ -9,6 +9,7 @@
 #define aDrop_hpp
 
 #include <stdio.h>
+#include <iostream>
 #include <stdlib.h>
 #include <math.h>
 
@@ -24,6 +25,9 @@ public:
     float velocity_x;
     float velocity_y;
     float velocity_d;
+    // space porperties
+    float space_ratio = 1;
+    float size_ratio = 1;
     
     
     //----------
@@ -36,7 +40,7 @@ public:
     void updateThroughVelocity(float g, float target_vX, float target_vY, float target_vD);
     void updateThroughAcceleration(float gX, float gY, float gD);
     
-    void updatePosition(float mag_v);
+    void updatePosition(float r, float mag_v, int winWidth, int winHeight);
     void setReborn(int winWidth, int winHeight);
     void setRebounce(int winWidth, int winHeight);
     
