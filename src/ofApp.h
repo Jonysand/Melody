@@ -40,7 +40,7 @@ class ofApp : public ofBaseApp{
         colorDetector COLORdetector;
     
         // animation
-        const static int drops_amount=40;
+        const static int drops_amount=60;
         aDrop drops [drops_amount];
         // radius of the rain drop
         float r = 6;

@@ -53,7 +53,7 @@ void ofApp::update(){
 //        obj_Y = (obj_Y_BGS+obj_Y_COLOR)/2;
             obj_X = obj_X_BGS;
             obj_Y = obj_Y_BGS;
-            obj_D = 2*obj_D_BGS;
+            obj_D = -20*obj_D_BGS;
 //            obj_X=0;
 //            obj_Y=0;
     }
