@@ -1,4 +1,4 @@
-# Motion controled Animation - SensingMachine assignment 1
+# Motion controled Animation
 
 <!-- vim-markdown-toc GFM -->
 
